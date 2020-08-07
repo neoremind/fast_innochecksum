@@ -1,4 +1,4 @@
-// Use of this source code is governed by a BSD-style license
+// Use of this source code is governed by GNU General Public License
 // that can be found in the License file.
 //
 // Author: neoremind (neoremind.com)

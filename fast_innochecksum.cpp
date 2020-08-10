@@ -50,32 +50,18 @@ int main(int argc, char** argv)
     struct stat st;              /* for stat, if you couldn't guess */
     unsigned long long int size; /* size of file (has to be 64 bits) */
     ulint pages;                 /* number of pages in file */
-    ulint startPage = 0, endPage = 0,
-          useEndPage = 0; /* for starting and ending at certain pages */
     int justCount = 0;    /* if true, just print page count */
     uint32_t numOfConcurrentShard = 1;
 
     int c;
 
     /* remove arguments */
-    while ((c = getopt(argc, argv, "cs:e:p:n:")) != -1)
+    while ((c = getopt(argc, argv, "cn:")) != -1)
     {
         switch (c)
         {
             case 'c':
                 justCount = 1;
-                break;
-            case 's':
-                startPage = atoi(optarg);
-                break;
-            case 'e':
-                endPage = atoi(optarg);
-                useEndPage = 1;
-                break;
-            case 'p':
-                startPage = atoi(optarg);
-                endPage = atoi(optarg);
-                useEndPage = 1;
                 break;
             case 'n':
                 numOfConcurrentShard = atoi(optarg);
@@ -96,14 +82,9 @@ int main(int argc, char** argv)
     {
         printf("InnoDB offline file checksum utility.\n");
         printf(
-            "usage: %s [-c] [-s <start page>] [-e <end page>] [-p <page>] [-n "
-            "<num of concurrent shard>]"
-            " <filename>\n",
+            "usage: %s [-c] [-n <num of concurrent shard>] <filename>\n",
             argv[0]);
         printf("\t-c\tprint the count of pages in the file\n");
-        printf("\t-s n\tstart on this page number (0 based)\n");
-        printf("\t-e n\tend at this page number (0 based)\n");
-        printf("\t-p n\tcheck only this page (0 based)\n");
         printf("\t-n n\tnumber of concurrent shard to scan, default is 1\n");
         return 1;
     }
